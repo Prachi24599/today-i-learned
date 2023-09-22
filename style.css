@@ -8,8 +8,13 @@ body {
   color: #fafaf9;
   font-family: "Sono", sans-serif;
 }
+.header {
+  margin-bottom: 30px;
+}
 .fact-form {
   background-color: #44403c;
+  margin-bottom: 30px;
+  padding: 14px 40px;
 }
 h1 {
   font-size: 30px;
@@ -20,6 +25,8 @@ h1 {
   font-size: 15px;
   line-height: 1.4;
   background-color: #44403c;
+  margin-bottom: 16px;
+  padding: 14px 20px;
 }
 .tag {
   text-transform: uppercase;
