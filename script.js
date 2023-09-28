@@ -66,7 +66,9 @@ async function loadFacts() {
     }
   );
   const data = await res.json();
-  // console.log(data);
+  console.log(data);
+  const filteredData = data.filter((fact) => fact.category === "society");
+  console.log(filteredData);
   createFactsList(data);
 }
 
