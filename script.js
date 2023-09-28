@@ -50,8 +50,27 @@ const factsList = document.querySelector(".facts-list");
 
 //Create DOM elements - Render Facts in list
 factsList.innerHTML = "";
-createFactsList(initialFacts);
 
+//Load data from Supabase
+loadFacts();
+async function loadFacts() {
+  const res = await fetch(
+    "https://ooqgkljaltzjtpiavcub.supabase.co/rest/v1/facts",
+    {
+      headers: {
+        apikey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vcWdrbGphbHR6anRwaWF2Y3ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTU0ODg2MDEsImV4cCI6MjAxMTA2NDYwMX0.78xr5Vu2_iIPiYRXlvdTTR8_JUztP-k62wWSDRjy0Vw",
+        authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vcWdrbGphbHR6anRwaWF2Y3ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTU0ODg2MDEsImV4cCI6MjAxMTA2NDYwMX0.78xr5Vu2_iIPiYRXlvdTTR8_JUztP-k62wWSDRjy0Vw",
+      },
+    }
+  );
+  const data = await res.json();
+  // console.log(data);
+  createFactsList(data);
+}
+
+// createFactsList(initialFacts);
 function createFactsList(dataArray) {
   // factsList.insertAdjacentHTML("afterbegin", "<li>Prachi</li>");
   const htmlArr = dataArray.map(
@@ -67,9 +86,9 @@ function createFactsList(dataArray) {
   <span class="tag" style="background-color: #3b82f6">${fact.category}</span>
   </li>`
   );
-  console.log(htmlArr);
+  // console.log(htmlArr);
   const html = htmlArr.join("");
-  console.log(html);
+  // console.log(html);
   factsList.insertAdjacentHTML("afterbegin", html);
 }
 
