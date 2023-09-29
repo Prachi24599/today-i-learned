@@ -66,9 +66,9 @@ async function loadFacts() {
     }
   );
   const data = await res.json();
-  console.log(data);
-  const filteredData = data.filter((fact) => fact.category === "society");
-  console.log(filteredData);
+  // console.log(data);
+  // const filteredData = data.filter((fact) => fact.category === "society");
+  // console.log(filteredData);
   createFactsList(data);
 }
 
@@ -85,7 +85,9 @@ function createFactsList(dataArray) {
       target="_blank"
       >(Source)</a>
   </p>
-  <span class="tag" style="background-color: #3b82f6">${fact.category}</span>
+  <span class="tag" style="background-color: ${
+    CATEGORIES.find((category) => category.name === fact.category).color
+  }">${fact.category}</span>
   </li>`
   );
   // console.log(htmlArr);
@@ -104,3 +106,6 @@ btn.addEventListener("click", function () {
     btn.textContent = "Share a fact";
   }
 });
+
+console.log([3, 67, -98, 23].filter((el) => el > 10));
+console.log([3, 67, -98, 23].find((el) => el > 10));
