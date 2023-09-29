@@ -10,8 +10,8 @@ function App() {
       <Header />
       <NewFactForm />
       <main className="main">
-        <FactList />
         <CategoryFilter />
+        <FactList />
       </main>
     </>
   );
