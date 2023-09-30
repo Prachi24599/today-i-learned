@@ -11,6 +11,18 @@ const CATEGORIES = [
   { name: "news", color: "#8b5cf6" },
 ];
 
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
 const NewFactForm = () => {
   const [text, setText] = useState("");
   const [source, setSource] = useState("");
@@ -18,8 +30,17 @@ const NewFactForm = () => {
   const textLength = text.length;
 
   function handleSubmit(e) {
+    //1. Prevent Browser Reload
     e.preventDefault();
     console.log(text, source, category);
+
+    //2. Check if data is valid. If so create a new fact
+    if (text && isValidHttpUrl(source) && category && textLength <= 200) {
+      //3. Create a new fact object
+      //4. Add a new fact to the UI: add a fact to state
+      //5. Reset input fields
+      //6. Close the form
+    }
   }
 
   return (
