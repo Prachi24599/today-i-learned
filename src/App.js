@@ -20,7 +20,8 @@ function App() {
         .select("*")
         .limit(100);
       // console.log(facts);
-      setFacts(facts);
+      if (!error) setFacts(facts);
+      else alert("There is problem getting data");
       setIsLoading(false);
     }
     getFacts();
