@@ -11,6 +11,11 @@ const CATEGORIES = [
   { name: "news", color: "#8b5cf6" },
 ];
 const Fact = ({ fact }) => {
+  // const mycolor = CATEGORIES.find(
+  //   (category) => category.name === fact.category
+  // ).color;
+  // console.log(mycolor);
+
   return (
     <li className="fact">
       <p>

@@ -23,9 +23,9 @@ function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-const NewFactForm = () => {
+const NewFactForm = ({ setFacts, setShowForm }) => {
   const [text, setText] = useState("");
-  const [source, setSource] = useState("");
+  const [source, setSource] = useState("http://example.com");
   const [category, setCategory] = useState("");
   const textLength = text.length;
 
@@ -37,9 +37,26 @@ const NewFactForm = () => {
     //2. Check if data is valid. If so create a new fact
     if (text && isValidHttpUrl(source) && category && textLength <= 200) {
       //3. Create a new fact object
+      const newFact = {
+        id: Math.round(Math.random() * 1000000),
+        text,
+        source,
+        category,
+        votesInteresting: 0,
+        votesMindblowing: 0,
+        votesFalse: 0,
+        createdIn: new Date().getFullYear(),
+      };
       //4. Add a new fact to the UI: add a fact to state
+      setFacts((facts) => [newFact, ...facts]);
+
       //5. Reset input fields
+      setText("");
+      setSource("");
+      setCategory("");
+
       //6. Close the form
+      setShowForm(false);
     }
   }
 
