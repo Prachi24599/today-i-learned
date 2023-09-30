@@ -16,17 +16,25 @@ function App() {
   useEffect(() => {
     async function getFacts() {
       setIsLoading(true);
-      const { data: facts, error } = await supabase
-        .from("facts")
-        .select("*")
-        .limit(100);
+
+      let query = supabase.from("facts").select("*");
+      if (currentCategory !== "all") {
+        query = query.eq("category", currentCategory);
+      }
+
+      const { data: facts, error } = await query
+        .order("votesInteresting", {
+          ascending: false,
+        })
+        .limit(1000);
+
       // console.log(facts);
       if (!error) setFacts(facts);
       else alert("There is problem getting data");
       setIsLoading(false);
     }
     getFacts();
-  }, []);
+  }, [currentCategory]);
 
   return (
     <>
