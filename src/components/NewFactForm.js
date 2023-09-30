@@ -28,12 +28,13 @@ const NewFactForm = ({ setFacts, setShowForm }) => {
   const [text, setText] = useState("");
   const [source, setSource] = useState("http://example.com");
   const [category, setCategory] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
   const textLength = text.length;
 
   async function handleSubmit(e) {
     //1. Prevent Browser Reload
     e.preventDefault();
-    console.log(text, source, category);
+    // console.log(text, source, category);
 
     //2. Check if data is valid. If so create a new fact
     if (text && isValidHttpUrl(source) && category && textLength <= 200) {
@@ -50,12 +51,14 @@ const NewFactForm = ({ setFacts, setShowForm }) => {
       // };
 
       //3. Upload fact to supabase and receive the new fact object
+      setIsUploading(true);
       const { data: newFact, error } = await supabase
         .from("facts")
         .insert([{ text, source, category }])
         .select();
+      setIsUploading(false);
 
-      console.log(newFact);
+      // console.log(newFact);
 
       //4. Add a new fact to the UI: add a fact to state
       setFacts((facts) => [newFact[0], ...facts]);
@@ -77,6 +80,7 @@ const NewFactForm = ({ setFacts, setShowForm }) => {
         placeholder="Share a fact with world..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        disabled={isUploading}
       />
       <span>{200 - textLength}</span>
       <input
@@ -84,14 +88,21 @@ const NewFactForm = ({ setFacts, setShowForm }) => {
         placeholder="Trustworthy Source..."
         value={source}
         onChange={(e) => setSource(e.target.value)}
+        disabled={isUploading}
       />
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        disabled={isUploading}
+      >
         <option value="">Choose Category :</option>
         {CATEGORIES.map((cat) => (
-          <option key={cat.name}>{cat.name.toUpperCase()}</option>
+          <option key={cat.name}>{cat.name}</option>
         ))}
       </select>
-      <button className="btn btn-large">Post</button>
+      <button className="btn btn-large" disabled={isUploading}>
+        Post
+      </button>
     </form>
   );
 };
