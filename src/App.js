@@ -11,6 +11,7 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [facts, setFacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("all");
 
   useEffect(() => {
     async function getFacts() {
@@ -34,7 +35,7 @@ function App() {
         <NewFactForm setFacts={setFacts} setShowForm={setShowForm} />
       )}
       <main className="main">
-        <CategoryFilter />
+        <CategoryFilter setCurrentCategory={setCurrentCategory} />
         {isLoading ? <Spinner /> : <FactList facts={facts} />}
       </main>
     </>
