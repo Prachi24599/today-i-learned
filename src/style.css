@@ -221,3 +221,9 @@ ul {
     padding: 12px 16px;
   }
 }
+
+.disputed {
+  color: #ef4444;
+  font-weight: 600;
+  margin-right: 10px;
+}
