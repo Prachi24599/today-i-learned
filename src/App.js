@@ -44,7 +44,11 @@ function App() {
       )}
       <main className="main">
         <CategoryFilter setCurrentCategory={setCurrentCategory} />
-        {isLoading ? <Spinner /> : <FactList facts={facts} />}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <FactList facts={facts} setFacts={setFacts} />
+        )}
       </main>
     </>
   );

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import supabase from "../supabase";
 
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
@@ -10,11 +11,24 @@ const CATEGORIES = [
   { name: "history", color: "#f97316" },
   { name: "news", color: "#8b5cf6" },
 ];
-const Fact = ({ fact }) => {
-  // const mycolor = CATEGORIES.find(
-  //   (category) => category.name === fact.category
-  // ).color;
-  // console.log(mycolor);
+const Fact = ({ fact, setFacts }) => {
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  async function handleVote() {
+    setIsUpdating(true);
+    const { data: updatedFact, error } = await supabase
+      .from("facts")
+      .update({ votesInteresting: fact.votesInteresting + 1 })
+      .eq("id", fact.id)
+      .select();
+    setIsUpdating(false);
+
+    // console.log(updatedFact);
+    if (!error)
+      setFacts((facts) =>
+        facts.map((f) => (f.id === fact.id ? updatedFact[0] : f))
+      );
+  }
 
   return (
     <li className="fact">
@@ -35,7 +49,9 @@ const Fact = ({ fact }) => {
         {fact.category}
       </span>
       <div className="vote-buttons">
-        <button>👍 {fact.votesInteresting}</button>
+        <button onClick={handleVote} disabled={isUpdating}>
+          👍 {fact.votesInteresting}
+        </button>
         <button>🤯 {fact.votesMindblowing}</button>
         <button>⛔️ {fact.votesFalse}</button>
       </div>
