@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import supabase from "../supabase";
 
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
@@ -29,7 +30,7 @@ const NewFactForm = ({ setFacts, setShowForm }) => {
   const [category, setCategory] = useState("");
   const textLength = text.length;
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     //1. Prevent Browser Reload
     e.preventDefault();
     console.log(text, source, category);
@@ -37,18 +38,27 @@ const NewFactForm = ({ setFacts, setShowForm }) => {
     //2. Check if data is valid. If so create a new fact
     if (text && isValidHttpUrl(source) && category && textLength <= 200) {
       //3. Create a new fact object
-      const newFact = {
-        id: Math.round(Math.random() * 1000000),
-        text,
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
+      // const newFact = {
+      //   id: Math.round(Math.random() * 1000000),
+      //   text,
+      //   source,
+      //   category,
+      //   votesInteresting: 0,
+      //   votesMindblowing: 0,
+      //   votesFalse: 0,
+      //   createdIn: new Date().getFullYear(),
+      // };
+
+      //3. Upload fact to supabase and receive the new fact object
+      const { data: newFact, error } = await supabase
+        .from("facts")
+        .insert([{ text, source, category }])
+        .select();
+
+      console.log(newFact);
+
       //4. Add a new fact to the UI: add a fact to state
-      setFacts((facts) => [newFact, ...facts]);
+      setFacts((facts) => [newFact[0], ...facts]);
 
       //5. Reset input fields
       setText("");
