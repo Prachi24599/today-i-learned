@@ -4,6 +4,8 @@ import { CATEGORIES } from "../data";
 
 const Fact = ({ fact, setFacts }) => {
   const [isUpdating, setIsUpdating] = useState(false);
+  const isDisputed =
+    fact.votesInteresting + fact.votesMindBlowing < fact.votesFalse;
 
   async function handleVote(columnName) {
     setIsUpdating(true);
@@ -24,6 +26,7 @@ const Fact = ({ fact, setFacts }) => {
   return (
     <li className="fact">
       <p>
+        {isDisputed ? <span className="disputed">[⛔️ DISPUTED] </span> : null}
         {fact.text}
         <a className="source" href={fact.source} target="_blank">
           (Source)
