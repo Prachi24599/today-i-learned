@@ -61,7 +61,7 @@ const NewFactForm = ({ setFacts, setShowForm }) => {
       // console.log(newFact);
 
       //4. Add a new fact to the UI: add a fact to state
-      setFacts((facts) => [newFact[0], ...facts]);
+      if (!error) setFacts((facts) => [newFact[0], ...facts]);
 
       //5. Reset input fields
       setText("");
